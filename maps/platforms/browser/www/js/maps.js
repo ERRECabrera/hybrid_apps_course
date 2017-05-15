@@ -8,12 +8,18 @@ var app = {
   },
 
   dispositivoListo: function(){
-    navigator.geolocation.getCurrentPosition(app.dibujaCoordenadas,app.errorAlSolicitarLocalizacion);
+    navigator.geolocation.getCurrentPosition(app.pintaCoordenadasEnMapa,app.errorAlSolicitarLocalizacion);
   },
 
-  dibujaCoordenadas: function(position){
-    var coordsDiv = document.querySelector('#coords');
-    coordsDiv.innerHTML = "Latitud: "+position.coords.latitude+" Longitud: "+position.coords.longitude;
+  pintaCoordenadasEnMapa: function(position){
+    var miMapa = L.map('map').setView([position.coords.latitude, position.coords.longitude], 13);
+
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={access_token}', {
+      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      maxZoom: 18,
+      id: 'mapbox.streets',
+      access_token: 'pk.eyJ1IjoiZXJycmUiLCJhIjoiY2oycTczNnBsMDJuNDJ4bWg3MGFocjY4biJ9.YIIDA59xkjvH2HwwPZmjmg'
+    }).addTo(miMapa);
   },
 
   errorAlSolicitarLocalizacion: function(error){
