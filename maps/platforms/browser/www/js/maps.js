@@ -20,6 +20,18 @@ var app = {
       id: 'mapbox.streets',
       access_token: 'pk.eyJ1IjoiZXJycmUiLCJhIjoiY2oycTczNnBsMDJuNDJ4bWg3MGFocjY4biJ9.YIIDA59xkjvH2HwwPZmjmg'
     }).addTo(miMapa);
+
+    app.pintaMarcador([position.coords.latitude, position.coords.longitude], '¡Estoy aquí!', miMapa);
+
+    miMapa.on('click', function(evento){
+      var texto = 'Marcador en l(' + evento.latlng.lat.toFixed(2) + ') y L(' + evento.latlng.lng.toFixed(2) + ')';
+      app.pintaMarcador(evento.latlng, texto, miMapa);
+    });
+  },
+
+  pintaMarcador: function(latlng, texto, mapa){
+    var marcador = L.marker(latlng).addTo(mapa);
+    marcador.bindPopup(texto).openPopup();
   },
 
   errorAlSolicitarLocalizacion: function(error){
