@@ -52,6 +52,12 @@ body {
   background-color: #FD4140;
 }
 
+#button-gallery {
+  font-size: large;
+  border-radius: 10px;
+  background-color: #92BA3F;
+}
+
 .button-filter {
   font-size: medium;
   width: 5rem;
