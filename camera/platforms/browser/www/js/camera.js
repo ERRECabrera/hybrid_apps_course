@@ -1,16 +1,34 @@
 var app = {
   inicio: function(){
     this.iniciaFastClick();
-    this.iniciaBoton();
+    this.iniciaBotones();
   },
+
+  _chobi: undefined,
+  _img: undefined,
 
   iniciaFastClick: function(){
     FastClick.attach(document.body);
   },
 
-  iniciaBoton: function(){
+  iniciaBotones: function(){
     var buttonAction = document.querySelector('#button-action');
     buttonAction.addEventListener('click',this.tomarFoto);
+
+    var filterButtons = document.querySelectorAll('.button-filter');
+    filterButtons[0].addEventListener('click',function(){
+      app.aplicaFiltro('blackAndWhite');
+    });
+    filterButtons[1].addEventListener('click',function(){
+      app.aplicaFiltro('negative');
+    });
+    filterButtons[2].addEventListener('click',function(){
+      app.aplicaFiltro('sepia');
+    });
+    filterButtons[3].addEventListener('click',function(){
+      var img = document.getElementById('foto');
+      app.loadImage(img);
+    });
   },
 
   tomarFoto: function(){
@@ -25,23 +43,32 @@ var app = {
   },
 
   fotoTomada: function(imageURI){
-    var img = document.createElement('img');
+    img = document.getElementById('foto');
     img.onload = function(){
       app.pintarFoto(img);
     };
     img.src = imageURI;
   },
 
+  loadImage: function(img){
+    app._chobi = new Chobi(img);
+    app._chobi.ready(function(){
+      this.canvas = document.getElementById("canvas");
+      this.loadImageToCanvas();
+    });
+  },
+
   pintarFoto: function(img){
-    var canvas = document.querySelector('#foto');
-    var context = canvas.getContext('2d');
-    canvas.width = img.width;
-    canvas.height = img.height;
-    context.drawImage(img,0,0,img.width,img.height);
+    app.loadImage(img);
   },
 
   errorAlTomarFoto: function(message){
     console.log('Fallo al tomar foto o toma cancelada: '+ message)
+  },
+
+  aplicaFiltro: function(filterName){
+    app._chobi[filterName]();
+    app._chobi.loadImageToCanvas();
   }
 };
 

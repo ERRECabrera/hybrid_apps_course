@@ -27,8 +27,8 @@ body {
   text-align: center;
 }
 
-#foto {
-  height: 400px;
+#canvas {
+  height: 390px;
   border: 1px solid;
   margin: 1%;
   box-sizing: border-box;
@@ -50,4 +50,10 @@ body {
   font-size: large;
   border-radius: 10px;
   background-color: #FD4140;
+}
+
+.button-filter {
+  font-size: medium;
+  width: 5rem;
+  background-color: #7ABAF2;
 }
